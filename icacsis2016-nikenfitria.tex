@@ -14,7 +14,7 @@
 \begin{document}
 %
 % paper title
-\title{ORM for Software Product Line on ABS}
+\title{Object-Relational Mapping \\of Software Product Lines in the ABS Language}
 
 
 % author names and affiliations
@@ -33,7 +33,47 @@ Darmstadt, Germany}}
 
 
 \begin{abstract}
-Feature variability of an application in SPL (Software Product Line) can affect the design and the implementation of database schema of the application, if the feature is related to the data storage of the application. However, this crucial thing is not handled by the management technique of variability in SPL, hence this can make database schema inconsistent and incompatible with the application requirements. This study shows delta modeling in ABS (Abstract Behavioral Specification) is able to adjust database schema based on requirement changes to realize feature variance. To this end, we develop mapping mechanism of delta modeling in ABS into relational database schema. By integrating the mapping technique with existing ABS Tools, the appropriate database schema for each product of the SPL can be generated.
+
+Software Product Lines (SPL) employ variability modelling to ease development of
+software products that are tailored to variable customer requirements.
+% If these
+% products use a relational database, the corresponding database schema needs
+% to be adapted according to variability of the application's data storage model.
+The data storage models of the individual products can vary according to the
+chosen features of each product. It is therefore desirable to include
+data storage variability in the overall variability model of the SPL.
+%
+When the data is stored in a relational database, the variability model of the
+SPL needs to account for variability in the design and implementation of the
+database schema. For this purpose, we devise a technique to control the
+variability of the database schema from within the SPL. This technique consists
+of building an object model of the database, and a set of mapping rules to the
+relational model. We implement our technique as part of the Abstract Behavioral
+Specification (ABS) language, a delta-oriented modelling language equipped for
+SPL engineering.
+%
+By modelling the variability of the relational database schema,
+the appropriate database schema for each product of the SPL can be generated automatically.
+Consequently, requirement changes that alter the feature composition of a
+product will adjust the database schema accordingly. This eliminates potential
+incompatibility between application logic and data storage model.
+
+
+
+% Feature variability of an application in Software Product Lines (SPL) can
+% affect the design and the implementation of database schema of the application,
+% if the feature is related to the data storage of the application.
+%
+% However, this
+% crucial thing is not handled by the management technique of variability in SPL,
+% hence this can make database schema inconsistent and incompatible with the
+% application requirements. This study shows delta modeling in ABS (Abstract
+% Behavioral Specification) is able to adjust database schema based on requirement
+% changes to realize feature variance. To this end, we develop mapping mechanism
+% of delta modeling in ABS into relational database schema. By integrating the
+% mapping technique with existing ABS Tools, the appropriate database schema for
+% each product of the SPL can be generated.
+
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -50,9 +90,9 @@ ABS (Abstract Behavioral Specification) is a modeling language which supports SP
 
 Many software application relies on database to manage data, therefore database is an important element of software system. Furthermore database is also influenced by requirement changes resulted by SPL implementation. In SPL, the variability of software, information system for example, will cause variability in database schema and database implementation. Until now, there is no technique in SPL methodology to manage variability in database schema and database implementation, especially in information system \cite{article}. This paper is concerned in applying delta modeling in ABS to not only influence and adjust the  SPL implementation, but also the changes of database schema.
 
-The main contribution of this paper is the mapping technique of delta modeling in ABS into relational database schema. The follows are the organizations of this paper. 
-The first section is the introduction of the paper. 
-Section two discusses about the mapping technique from delta oriented programming into relational database introduced by this paper. 
+The main contribution of this paper is the mapping technique of delta modeling in ABS into relational database schema. The follows are the organizations of this paper.
+The first section is the introduction of the paper.
+Section two discusses about the mapping technique from delta oriented programming into relational database introduced by this paper.
 The last section provides the conclusion and the future work of this research.
 
 \section{Mapping Technique}
@@ -92,13 +132,13 @@ The main elements of relational database schemes are tables and constraints \cit
 	\label{tabel1}
 	\begin{tabular}{|l|l|l|l|}
 		\hline
-		\multirow{9}{*}{schema} & \multirow{7}{*}{table} & \multirow{3}{*}{attribute}   & name              \\ \cline{4-4} 
-		&                        &                              & data type         \\ \cline{4-4} 
-		&                        &                              & {[}constraints{]} \\ \cline{3-4} 
+		\multirow{9}{*}{schema} & \multirow{7}{*}{table} & \multirow{3}{*}{attribute}   & name              \\ \cline{4-4}
+		&                        &                              & data type         \\ \cline{4-4}
+		&                        &                              & {[}constraints{]} \\ \cline{3-4}
 		&                        & \multicolumn{2}{c|}{\multirow{2}{*}{:}}          \\
-		&                        & \multicolumn{2}{c|}{}                            \\ \cline{3-4} 
-		&                        & \multirow{2}{*}{constraints} & Primary Key       \\ \cline{4-4} 
-		&                        &                              & {[}Foreign Key{]} \\ \cline{2-4} 
+		&                        & \multicolumn{2}{c|}{}                            \\ \cline{3-4}
+		&                        & \multirow{2}{*}{constraints} & Primary Key       \\ \cline{4-4}
+		&                        &                              & {[}Foreign Key{]} \\ \cline{2-4}
 		& \multicolumn{3}{c|}{\multirow{2}{*}{:}}                                   \\
 		& \multicolumn{3}{c|}{}                                                     \\ \hline
 	\end{tabular}
@@ -107,7 +147,7 @@ The main elements of relational database schemes are tables and constraints \cit
 In a database schema there will be at least one table. In each table, there will be at least one attribute, there must be one primary key, and there could be any number of foreign keys. In each attribute, there must be an attribute name, there must be an attribute data type, and there could be any attribute constraints. Hence, we should extract the ABS code to get the information about:
 \begin{itemize}
 	\item table(s)
-	\begin{itemize}	
+	\begin{itemize}
 		\item attribute(s)
 		\begin{itemize}
 			\item attribute name
@@ -120,10 +160,10 @@ In a database schema there will be at least one table. In each table, there will
 \end{itemize}
 
 \subsection{Core ABS and Delta Modules}
-In this section, we analyze the core modules of ABS to obtain the information needed to generate a database schema. However ABS implements delta-oriented programming. Hence, we should also consider the modification done by the delta modules which will affect the ABS core. 	
+In this section, we analyze the core modules of ABS to obtain the information needed to generate a database schema. However ABS implements delta-oriented programming. Hence, we should also consider the modification done by the delta modules which will affect the ABS core.
 
 \subsubsection*{Core ABS Mapping}
-Core ABS contains at least one module. In each module, there could be any import and export from other modules, any interface declarations, any class declarations, any data type declarations, any function declarations, and main block. For every declared interface, there could be any abstract method declarations. For every class, there could be any class parameters, any interfaces implemented, any fields, and any methods. For every class parameter, there must be a data type and a name. Whereas for every field in a class, there must be a data type and a name, and there could be an initial value. 
+Core ABS contains at least one module. In each module, there could be any import and export from other modules, any interface declarations, any class declarations, any data type declarations, any function declarations, and main block. For every declared interface, there could be any abstract method declarations. For every class, there could be any class parameters, any interfaces implemented, any fields, and any methods. For every class parameter, there must be a data type and a name. Whereas for every field in a class, there must be a data type and a name, and there could be an initial value.
 
 
 \begin{table}[]
@@ -132,33 +172,33 @@ Core ABS contains at least one module. In each module, there could be any import
 	\label{table2}
 	\begin{tabular}{|l|l|l|l|l|}
 		\hline
-		\multirow{23}{*}{core} & \multirow{22}{*}{module} & \multicolumn{3}{l|}{export}                                             \\ \cline{3-5} 
-		&                          & \multicolumn{3}{l|}{import}                                             \\ \cline{3-5} 
-		&                          & \multirow{2}{*}{interface} & \multicolumn{2}{l|}{abstract method}       \\ \cline{4-5} 
-		&                          &                            & \multicolumn{2}{c|}{:}                     \\ \cline{3-5} 
-		&                          & \multicolumn{3}{c|}{:}                                                  \\ \cline{3-5} 
-		&                          & \multirow{11}{*}{class*}   & \multirow{2}{*}{parameter*}  & data type*  \\ \cline{5-5} 
-		&                          &                            &                              & name*       \\ \cline{4-5} 
-		&                          &                            & \multicolumn{2}{c|}{:}                     \\ \cline{4-5} 
-		&                          &                            & \multicolumn{2}{l|}{implemented interface} \\ \cline{4-5} 
-		&                          &                            & \multicolumn{2}{c|}{:}                     \\ \cline{4-5} 
-		&                          &                            & \multirow{3}{*}{field*}      & data type*  \\ \cline{5-5} 
-		&                          &                            &                              & name*       \\ \cline{5-5} 
-		&                          &                            &                              & value*      \\ \cline{4-5} 
-		&                          &                            & \multicolumn{2}{c|}{:}                     \\ \cline{4-5} 
-		&                          &                            & \multicolumn{2}{l|}{method}                \\ \cline{4-5} 
-		&                          &                            & \multicolumn{2}{c|}{:}                     \\ \cline{3-5} 
-		&                          & \multicolumn{3}{c|}{:}                                                  \\ \cline{3-5} 
-		&                          & \multicolumn{3}{l|}{data type declaration}                              \\ \cline{3-5} 
-		&                          & \multicolumn{3}{c|}{:}                                                  \\ \cline{3-5} 
-		&                          & \multicolumn{3}{l|}{function declaration}                               \\ \cline{3-5} 
-		&                          & \multicolumn{3}{c|}{:}                                                  \\ \cline{3-5} 
-		&                          & \multicolumn{3}{l|}{main block}                                         \\ \cline{2-5} 
+		\multirow{23}{*}{core} & \multirow{22}{*}{module} & \multicolumn{3}{l|}{export}                                             \\ \cline{3-5}
+		&                          & \multicolumn{3}{l|}{import}                                             \\ \cline{3-5}
+		&                          & \multirow{2}{*}{interface} & \multicolumn{2}{l|}{abstract method}       \\ \cline{4-5}
+		&                          &                            & \multicolumn{2}{c|}{:}                     \\ \cline{3-5}
+		&                          & \multicolumn{3}{c|}{:}                                                  \\ \cline{3-5}
+		&                          & \multirow{11}{*}{class*}   & \multirow{2}{*}{parameter*}  & data type*  \\ \cline{5-5}
+		&                          &                            &                              & name*       \\ \cline{4-5}
+		&                          &                            & \multicolumn{2}{c|}{:}                     \\ \cline{4-5}
+		&                          &                            & \multicolumn{2}{l|}{implemented interface} \\ \cline{4-5}
+		&                          &                            & \multicolumn{2}{c|}{:}                     \\ \cline{4-5}
+		&                          &                            & \multirow{3}{*}{field*}      & data type*  \\ \cline{5-5}
+		&                          &                            &                              & name*       \\ \cline{5-5}
+		&                          &                            &                              & value*      \\ \cline{4-5}
+		&                          &                            & \multicolumn{2}{c|}{:}                     \\ \cline{4-5}
+		&                          &                            & \multicolumn{2}{l|}{method}                \\ \cline{4-5}
+		&                          &                            & \multicolumn{2}{c|}{:}                     \\ \cline{3-5}
+		&                          & \multicolumn{3}{c|}{:}                                                  \\ \cline{3-5}
+		&                          & \multicolumn{3}{l|}{data type declaration}                              \\ \cline{3-5}
+		&                          & \multicolumn{3}{c|}{:}                                                  \\ \cline{3-5}
+		&                          & \multicolumn{3}{l|}{function declaration}                               \\ \cline{3-5}
+		&                          & \multicolumn{3}{c|}{:}                                                  \\ \cline{3-5}
+		&                          & \multicolumn{3}{l|}{main block}                                         \\ \cline{2-5}
 		& \multicolumn{4}{c|}{:}                                                                             \\ \hline
 	\end{tabular}
 \end{table}
 
-In Table II, the components that are related with the information needed to generate a database schema are marked with (*). Note that any imported and exported items will not affect the database schema. Furthermore, any methods in the interface and class, and also functional declaration will not affect the database schema. However, the interface and data type declaration are related with the database schema, because the implemented interface affect the type of the object and data type declared could be the data type of a class parameter or a field. These issues will be discussed in the next section. Table III contains the mapping of each component of an ABS module to a relational database schema components, based on the database-oriented perspective used in ORM. 
+In Table II, the components that are related with the information needed to generate a database schema are marked with (*). Note that any imported and exported items will not affect the database schema. Furthermore, any methods in the interface and class, and also functional declaration will not affect the database schema. However, the interface and data type declaration are related with the database schema, because the implemented interface affect the type of the object and data type declared could be the data type of a class parameter or a field. These issues will be discussed in the next section. Table III contains the mapping of each component of an ABS module to a relational database schema components, based on the database-oriented perspective used in ORM.
 
 \begin{table}[]
 	\centering
@@ -259,7 +299,7 @@ data Triple<A,B,C> = Triple(A,B,C);
 
 A field or class parameter with Pair or Triple type will have more than one value. Hence, these data types will result multivalued attributes, which break the domain constraints. To avoid this, the value of Pair data type and Triple data type will be separated into several attributes in database schema. For Pair data type, there will be two attributes. The first attribute will have [fieldName]0 as the attribute name, and the attribute type of it will be the first type parameter defined inside the angle brackets (\textless \textgreater). Whereas the second attribute will have [fieldName]1 as the attribute name, and the attribute type of it will be the second type parameter defined inside the angle brackets (\textless \textgreater).
 
-As for the Triple data type, there will be three attributes. The first attribute will have [fieldName]0 as the attribute name, and the attribute type of it will be the first type parameter defined inside the angle brackets (\textless \textgreater). Whereas the second attribute will have [fieldName]1 as the attribute name, and the attribute type of it will be the second type parameter defined inside the angle brackets (\textless \textgreater). And the third attribute will have [fieldName]2 as the attribute name, and the attribute type of it will be the third type parameter defined inside the angle brackets (\textless \textgreater). 
+As for the Triple data type, there will be three attributes. The first attribute will have [fieldName]0 as the attribute name, and the attribute type of it will be the first type parameter defined inside the angle brackets (\textless \textgreater). Whereas the second attribute will have [fieldName]1 as the attribute name, and the attribute type of it will be the second type parameter defined inside the angle brackets (\textless \textgreater). And the third attribute will have [fieldName]2 as the attribute name, and the attribute type of it will be the third type parameter defined inside the angle brackets (\textless \textgreater).
 
 \subsubsection{Parametric Data Type in ABS}
 In ABS, parametric data types usually used to define general-purpose data types, such as lists, sets, and maps. Those three are already defined in the ABS Standard Library. However, these parametric data types are breaking the domain constraints of the relational database schema, because parametric data types will produce multivalued attribute. As the solution, multivalued attributes must be represented by separate relations. Hence, every class parameter or field in ABS with list, set, or map type, will be generated as a new table in database schema.
@@ -292,7 +332,7 @@ To describe the explanation above, we will use the same situation as the example
 	\centering
 	\includegraphics[scale=0.6]{sample2.pdf}
 	\caption{Account Interface and AccountImpl Class}
-	\label{figure3}	
+	\label{figure3}
 \end{figure}
 
 Figure 4 presents the relational database schema based on the explanation above.
@@ -327,16 +367,16 @@ Basically this research is the first step of a bigger research that connects ABS
 \end{enumerate}
 
 \begin{thebibliography}{4}
-	
+
 	\bibitem{book1} Pohl, K., Bockle, G., Linden, F.J.V.D.: Software Product Line Engineering: Foundation, Principles and Techniques. Springer, New York (2005)
-	
+
 	\bibitem{book2} Elmasri, R., Navathe, S.B.: Fundamentals of Database Systems. Addison-Wesley, Boston (2011)
-	
+
 	\bibitem{lncschap} Reiner, Hahnle.: The Abstract Behavioral Specification Language. In: Giachino, E., Hahnle, R., Boer, F.S.D.B., Bonsangue, M.M. (eds.) Formal methods for Components and Objects. LNCS, vol. 7866, pp. 1-37. Springer, Heidelberg (2013)
-	
+
 	\bibitem{article} Khedri, N., Khosravi, R.: Handling Database Schema Variability in Software Product Lines. In: 2013 20th Asia-Pacific Software Engineering Conference(ASPEC), pp.
 	3311-338. IEEE Computer Society, California (2013)
-	
+
 \end{thebibliography}
 
 \end{document}
